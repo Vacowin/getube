@@ -26,22 +26,20 @@ private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
     .build()
 
+/*
 private var client = OkHttpClient.Builder()
     .addInterceptor(ChuckInterceptor(GetubeApplication.applicationContext()))
     .build()
-
+ */
 private val retrofit = Retrofit.Builder()
-    .client(client)
+    //.client(client)
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .baseUrl(BASE_URL)
     .build()
 
 interface YoutubeApiService {
-    /*
-    @Headers(
-        "Authorization: Bearer $API_KEY"
-    )*/
+
     @GET("playlistItems")
     fun playListItems(@Query("part") part: String = "snippet",
                       @Query("key") key: String = API_KEY,
