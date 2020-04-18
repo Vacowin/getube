@@ -2,13 +2,11 @@ package com.vacowin.getube.playlist
 
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.vacowin.getube.network.PlaylistItem
 import com.vacowin.getube.network.YoutubeApi
 import com.vacowin.getube.network.YoutubePlaylist
+import com.vacowin.getube.network.YoutubeVideo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -30,6 +28,10 @@ class PlaylistViewModel : ViewModel(){
     val properties: LiveData<List<PlaylistItem>>
         get() = _properties
 
+    private val _videos = MutableLiveData<List<YoutubeVideo>>()
+    val videos: LiveData<List<YoutubeVideo>>
+        get() = _videos
+
     init {
         getPlaylist()
     }
@@ -43,12 +45,13 @@ class PlaylistViewModel : ViewModel(){
                 val playlist = playlistDeferred.await()
                 _status.value = PlaylistApiStatus.DONE
                 _properties.value = playlist.items
+                _videos.value = playlist.items.map { it.snippet }
             }
             catch (e: Exception) {
                 _status.value = PlaylistApiStatus.ERROR
                 _properties.value = ArrayList()
+                _videos.value = ArrayList()
             }
         }
     }
-
 }
