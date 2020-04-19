@@ -3,10 +3,7 @@ package com.vacowin.getube.playlist
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
-import com.vacowin.getube.network.PlaylistItem
-import com.vacowin.getube.network.YoutubeApi
-import com.vacowin.getube.network.YoutubePlaylist
-import com.vacowin.getube.network.YoutubeVideo
+import com.vacowin.getube.network.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,14 +29,15 @@ class PlaylistViewModel : ViewModel(){
     val videos: LiveData<List<YoutubeVideo>>
         get() = _videos
 
+    /*
     init {
         getPlaylist()
     }
+     */
 
-    @VisibleForTesting
-    private fun getPlaylist() {
+    fun getPlaylist(playlistId: String = TEST_PLAYLIST_ID) {
         viewModelScope.launch {
-            var playlistDeferred = YoutubeApi.retrofitService.playListItems()
+            var playlistDeferred = YoutubeApi.retrofitService.playListItems(playlistId)
             try {
                 _status.value = PlaylistApiStatus.LOADING
                 val playlist = playlistDeferred.await()

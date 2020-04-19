@@ -20,7 +20,7 @@ import retrofit2.http.Query
 
 private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
 private const val API_KEY = "AIzaSyCro450_XdkUQtX16VJsPmyEnnp0ez9LNw"
-private const val TEST_PLAYLIST_ID = "PLVkRi-91ersa5GrYgyUtWWJTvNaskBVaf"
+const val TEST_PLAYLIST_ID = "PLVkRi-91ersa5GrYgyUtWWJTvNaskBVaf"
 private const val TSFH_PLAYLIST_ID = "PL_XCWeX-wTccWwZ2O8nYarkL2_FMF1Bf8"
 
 private val moshi = Moshi.Builder()
@@ -41,7 +41,7 @@ private val retrofit = Retrofit.Builder()
 interface YoutubeApiService {
 
     @GET("playlistItems")
-    fun playListItems(@Query("playlistId") id: String = TSFH_PLAYLIST_ID,
+    fun playListItems(@Query("playlistId") id: String = TEST_PLAYLIST_ID,
                       @Query("part") part: String = "snippet",
                       @Query("key") key: String = API_KEY,
                       @Query("maxResults") max: Int = 50): Deferred<YoutubePlaylist>
