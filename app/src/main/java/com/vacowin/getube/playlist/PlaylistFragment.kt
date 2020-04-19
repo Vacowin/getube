@@ -21,18 +21,24 @@ class PlaylistFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //return inflater.inflate(R.layout.playlist_fragment, container, false)
         val binding = DataBindingUtil.inflate<PlaylistFragmentBinding>(inflater,
            R.layout.playlist_fragment,container,false)
+
+        val adapter = PlaylistAdapter()
+        binding.playlist.adapter = adapter
+
+        viewModel.videos.observe(viewLifecycleOwner, Observer<List<YoutubeVideo>>{ videos ->
+            adapter.data = videos
+            //AlertDialog.Builder(activity).setMessage("VIDEOS in FRAGMENT \n" + videos).create().show()
+        })
+
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.videos.observe(viewLifecycleOwner, Observer<List<YoutubeVideo>>{ videos ->
-            AlertDialog.Builder(activity).setMessage("VIDEOS in FRAGMENT \n" + videos).create().show()
-        })
+
     }
 
 }
