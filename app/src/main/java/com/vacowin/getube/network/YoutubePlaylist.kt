@@ -11,6 +11,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class YoutubePlaylist (
     val kind: String,
+    //val nextPageToken: String,
+    //val prevPageToken: String,
     val items: List<PlaylistItem> ): Parcelable {
 
 }
