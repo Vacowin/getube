@@ -8,6 +8,15 @@
         android:layout_height="match_parent"
         tools:context=".playlist.PlaylistFragment">
 
+        <Button
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/downloadBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            >
+        </Button>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
