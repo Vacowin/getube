@@ -39,6 +39,7 @@ class PlaylistFragment : Fragment() {
            R.layout.playlist_fragment,container,false)
 
         val adapter = PlaylistAdapter()
+        adapter.viewModel = viewModel
         binding.playlist.adapter = adapter
 
         viewModel.videos.observe(viewLifecycleOwner, Observer<List<YoutubeVideo>>{ videos ->
@@ -48,7 +49,7 @@ class PlaylistFragment : Fragment() {
 
         binding.downloadBtn.setOnClickListener{
             uiScope.launch(Dispatchers.IO){
-                downloadTest()
+                //downloadTest()
                 withContext(Dispatchers.Main){
                     //ui operation
                 }
@@ -85,27 +86,5 @@ class PlaylistFragment : Fragment() {
             viewModel.getPlaylist(playlistId)
             //AlertDialog.Builder(activity).setMessage("PLAYLIST_ID \n" + playlistId).create().show()
         }
-    }
-
-    private fun downloadTest() {
-        val downloader = YoutubeDownloader()
-        val videoId = "xSXY2ClEdjQ" // for url https://www.youtube.com/watch?v=abc12345
-        val video: com.vacowin.getube.downloader.model.YoutubeVideo = downloader.getVideo(videoId)
-        val details: VideoDetails = video.details()
-        val formatByItag: Format = video.findFormatByItag(136)
-
-        val uri = Uri.parse(formatByItag.url())
-        val request = DownloadManager.Request(uri)
-        request.setTitle(details.title())
-
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-
-        request.setDestinationInExternalPublicDir(
-            Environment.DIRECTORY_DOWNLOADS,
-            details.title() + "." + formatByItag.extension().value()
-        )
-
-        val manager = context?.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        manager.enqueue(request)
     }
 }

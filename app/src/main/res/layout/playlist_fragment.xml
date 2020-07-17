@@ -9,6 +9,7 @@
         tools:context=".playlist.PlaylistFragment">
 
         <Button
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/downloadBtn"
