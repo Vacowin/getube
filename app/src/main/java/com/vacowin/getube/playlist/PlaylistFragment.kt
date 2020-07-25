@@ -13,8 +13,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
+import com.vacowin.getube.GetubeApplication
 import com.vacowin.getube.R
 import com.vacowin.getube.databinding.PlaylistFragmentBinding
 import com.vacowin.getube.downloader.YoutubeDownloader
@@ -27,12 +30,9 @@ import java.util.regex.Pattern
 
 class PlaylistFragment : Fragment() {
 
-    val job = Job()
-    val uiScope = CoroutineScope(Dispatchers.Main + job)
-
-    private val viewModel: PlaylistViewModel by lazy {
-        ViewModelProvider(this@PlaylistFragment).get(PlaylistViewModel::class.java)
-    }
+    private val viewModel: PlaylistViewModel by viewModels(
+        factoryProducer = { SavedStateViewModelFactory(GetubeApplication.get(),this) }
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<PlaylistFragmentBinding>(inflater,
@@ -47,21 +47,12 @@ class PlaylistFragment : Fragment() {
             //AlertDialog.Builder(activity).setMessage("VIDEOS in FRAGMENT \n" + videos).create().show()
         })
 
+        /*
         binding.downloadBtn.setOnClickListener{
-            uiScope.launch(Dispatchers.IO){
-                //downloadTest()
-                withContext(Dispatchers.Main){
-                    //ui operation
-                }
-
-            }
         }
+         */
 
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onStart() {

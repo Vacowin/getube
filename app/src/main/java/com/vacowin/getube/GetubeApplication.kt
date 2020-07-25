@@ -17,6 +17,10 @@ class GetubeApplication : Application() {
         fun applicationContext() : Context {
             return instance!!.applicationContext
         }
+
+        fun get() : GetubeApplication {
+            return instance!!
+        }
     }
 
     override fun onCreate() {

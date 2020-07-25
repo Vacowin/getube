@@ -38,14 +38,15 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
     val videos: LiveData<List<YoutubeVideo>>
         get() = _videos
 
+    /*
     private val _endList = MutableLiveData<Boolean>()
     val endList: LiveData<Boolean>
         get() = _endList
-
+    */
 
     fun getPlaylist(playlistId: String = ANDROID_LONG_PLAYLIST_ID) {
         viewModelScope.launch {
-            var playlistDeferred = YoutubeApi.retrofitService.playListItems(playlistId)
+            val playlistDeferred = YoutubeApi.retrofitService.playListItems(playlistId)
             try {
                 _status.value = PlaylistApiStatus.LOADING
                 val playlist = playlistDeferred.await()

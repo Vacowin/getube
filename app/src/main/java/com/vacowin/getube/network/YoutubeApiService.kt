@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.vacowin.getube.BuildConfig
 import com.vacowin.getube.GetubeApplication
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -19,7 +20,6 @@ import retrofit2.http.Query
  */
 
 private const val BASE_URL = "https://www.googleapis.com/youtube/v3/"
-private const val API_KEY = "AIzaSyCro450_XdkUQtX16VJsPmyEnnp0ez9LNw"
 const val TEST_PLAYLIST_ID = "PLVkRi-91ersa5GrYgyUtWWJTvNaskBVaf"
 const val TSFH_PLAYLIST_ID = "PL_XCWeX-wTccWwZ2O8nYarkL2_FMF1Bf8"
 const val TSFH_LONG_PLAYLIST_ID = "PLC218B0A1A9DE508B"
@@ -46,7 +46,7 @@ interface YoutubeApiService {
     fun playListItems(@Query("playlistId") id: String = TEST_PLAYLIST_ID,
                       @Query("nextPageToken") nextPage: String = TEST_PLAYLIST_ID,
                       @Query("part") part: String = "snippet",
-                      @Query("key") key: String = API_KEY,
+                      @Query("key") key: String = BuildConfig.YOUTUBE_API_KEY,
                       @Query("maxResults") max: Int = 50): Deferred<YoutubePlaylist>
 }
 
