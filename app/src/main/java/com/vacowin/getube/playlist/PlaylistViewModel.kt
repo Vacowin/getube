@@ -6,16 +6,14 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import androidx.annotation.VisibleForTesting
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
+import com.vacowin.getube.database.YoutubeVideo
+import com.vacowin.getube.database.getDatabase
 import com.vacowin.getube.downloader.YoutubeDownloader
 import com.vacowin.getube.downloader.model.VideoDetails
-import com.vacowin.getube.downloader.model.formats.Format
 import com.vacowin.getube.network.*
-import kotlinx.coroutines.CoroutineScope
+import com.vacowin.getube.repository.VideosRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -26,17 +24,21 @@ import java.lang.Exception
 enum class PlaylistApiStatus { LOADING, ERROR, DONE }
 
 class PlaylistViewModel(application: Application) : AndroidViewModel(application){
+
+    private val videosRepository = VideosRepository(getDatabase(application))
+
+    val videos = videosRepository.videos
+
     private val _status = MutableLiveData<PlaylistApiStatus>()
     val status: LiveData<PlaylistApiStatus>
         get() = _status
 
-    private val _properties = MutableLiveData<List<PlaylistItem>>()
-    val properties: LiveData<List<PlaylistItem>>
+
+    private val _properties = MutableLiveData<List<NwPlaylistItem>>()
+    val properties: LiveData<List<NwPlaylistItem>>
         get() = _properties
 
-    private val _videos = MutableLiveData<List<YoutubeVideo>>()
-    val videos: LiveData<List<YoutubeVideo>>
-        get() = _videos
+
 
     /*
     private val _endList = MutableLiveData<Boolean>()
@@ -46,21 +48,15 @@ class PlaylistViewModel(application: Application) : AndroidViewModel(application
 
     fun getPlaylist(playlistId: String = ANDROID_LONG_PLAYLIST_ID) {
         viewModelScope.launch {
-            val playlistDeferred = YoutubeApi.retrofitService.playListItems(playlistId)
             try {
                 _status.value = PlaylistApiStatus.LOADING
-                val playlist = playlistDeferred.await()
-                Log.d("VCN", playlist.toString())
+                videosRepository.refreshVideos(playlistId)
                 _status.value = PlaylistApiStatus.DONE
-                _properties.value = playlist.items
-                _videos.value = playlist.items.map { it.snippet }
                 //_endList.value = playlist.nextPageToken.isEmpty()
             }
             catch (e: Exception) {
                 Log.d("VCN", "load list err " + e.message)
                 _status.value = PlaylistApiStatus.ERROR
-                _properties.value = ArrayList()
-                _videos.value = ArrayList()
             }
         }
     }

@@ -1,13 +1,7 @@
 package com.vacowin.getube.playlist
 
-import android.app.AlertDialog
-import android.app.DownloadManager
-import android.content.Context
-import android.content.Context.DOWNLOAD_SERVICE
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateViewModelFactory
-import androidx.lifecycle.ViewModelProvider
 import com.vacowin.getube.GetubeApplication
 import com.vacowin.getube.R
+import com.vacowin.getube.database.YoutubeVideo
 import com.vacowin.getube.databinding.PlaylistFragmentBinding
-import com.vacowin.getube.downloader.YoutubeDownloader
-import com.vacowin.getube.downloader.model.VideoDetails
-import com.vacowin.getube.downloader.model.formats.Format
-import com.vacowin.getube.network.YoutubeVideo
-import kotlinx.coroutines.*
+import com.vacowin.getube.network.NwYoutubeVideo
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

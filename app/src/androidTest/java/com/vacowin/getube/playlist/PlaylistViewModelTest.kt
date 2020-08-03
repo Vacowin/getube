@@ -2,10 +2,8 @@ package com.vacowin.getube.playlist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.vacowin.getube.network.PlaylistItem
+import com.vacowin.getube.network.NwPlaylistItem
 import org.hamcrest.core.IsNot.not
 import org.junit.Assert.*
 import org.junit.Rule
@@ -29,7 +27,7 @@ class PlaylistViewModelTest {
         val viewModel = PlaylistViewModel()
         //ViewModelProviders.of(this).get(PlaylistViewModel::class.java)
 
-        val observer = Observer<List<PlaylistItem>> {}
+        val observer = Observer<List<NwPlaylistItem>> {}
         viewModel.properties.observeForever(observer)
 
         try {
@@ -37,7 +35,7 @@ class PlaylistViewModelTest {
 
             // Then the new task event is triggered
             val value = viewModel.properties
-            assertThat(value.value, (not(emptyList<PlaylistItem>())))
+            assertThat(value.value, (not(emptyList<NwPlaylistItem>())))
 
         } finally {
             viewModel.properties.removeObserver(observer)

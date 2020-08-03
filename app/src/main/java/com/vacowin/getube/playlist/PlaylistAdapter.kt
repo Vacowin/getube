@@ -9,10 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vacowin.getube.R
-import com.vacowin.getube.network.YoutubeVideo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.vacowin.getube.database.YoutubeVideo
+import com.vacowin.getube.network.NwYoutubeVideo
 
 /**
  * Created by Nguyen Cong Van on 2020-04-18.
@@ -31,11 +29,11 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>()  {
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val item = data[position]
-        holder.author.text = item.thumbnails.default.url
+        //holder.author.text = item.thumbnailUrl
         holder.title.text = item.title
-        Glide.with(holder.thumbnail.context).load(item.thumbnails.default.url).into(holder.thumbnail)
+        Glide.with(holder.thumbnail.context).load(item.thumbnailUrl).into(holder.thumbnail)
         holder.downloadBtn.setOnClickListener{
-            viewModel.downloadOneAudioAsync(item.resourceId.videoId)
+            viewModel.downloadOneAudioAsync(item.videoId)
         }
     }
 

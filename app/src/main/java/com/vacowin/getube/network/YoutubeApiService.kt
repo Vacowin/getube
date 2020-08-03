@@ -8,7 +8,6 @@ import com.vacowin.getube.BuildConfig
 import com.vacowin.getube.GetubeApplication
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -47,7 +46,7 @@ interface YoutubeApiService {
                       @Query("nextPageToken") nextPage: String = TEST_PLAYLIST_ID,
                       @Query("part") part: String = "snippet",
                       @Query("key") key: String = BuildConfig.YOUTUBE_API_KEY,
-                      @Query("maxResults") max: Int = 50): Deferred<YoutubePlaylist>
+                      @Query("maxResults") max: Int = 50): Deferred<NwYoutubePlaylist>
 }
 
 object YoutubeApi {
